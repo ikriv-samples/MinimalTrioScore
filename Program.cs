@@ -61,13 +61,9 @@ namespace MinimumTrioScore
                         if (GetAdjacent(i).Contains(j))
                         {
                             var score = GetScore(node, i, j);
-                            if (minScore == null)
+                            if (minScore == null || score < minScore)
                             {
                                 minScore = score;
-                            }
-                            else
-                            {
-                                if (score < minScore) minScore = score;
                             }
                         }
                     }
