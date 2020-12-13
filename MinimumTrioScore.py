@@ -28,6 +28,8 @@ class Graph:
     min_score = None
     for node in self.graph:
       adjacent = self._get_adjacent(node)
+      if len(adjacent) < 2:
+        continue
       for i in adjacent:
         if node >= i:
           continue

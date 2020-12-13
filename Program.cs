@@ -45,17 +45,16 @@ namespace MinimumTrioScore
 
         public int? GetMinScore()
         {
-            int min_node = _graph.Keys.Min();
-            int max_node = _graph.Keys.Max();
-
             int? minScore = null;
 
-            for (int node = min_node; node <= max_node; ++node)
+            foreach (var pair in _graph)
             {
-                var adjacent = GetAdjacent(node);
+                var node = pair.Key;
+                var adjacent = pair.Value;
                 if (adjacent.Count < 2) continue;
                 foreach (var i in adjacent)
                 {
+                    if (node >= i) continue;
                     foreach (var j in adjacent)
                     {
                         if (i >= j) continue;
