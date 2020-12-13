@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MinimumTrioScore
 {
@@ -16,30 +15,20 @@ namespace MinimumTrioScore
                 throw new ApplicationException("From and to array don't have the same length");
             }
 
-            _graph =
-                from.Zip(to, (f, t) => new { From = f, To = t })
-                .GroupBy(p => p.From)
-                .Select(g => new { From = g.Key, To = new HashSet<int>(g.Select(item => item.To)) })
-                .ToDictionary(item => item.From, item => item.To);
+            _graph = new Dictionary<int, HashSet<int>>();
 
-            CompleteGraph();
+            for (int i=0; i<from.Length; ++i)
+            {
+                AddEdge(from[i], to[i]);
+                AddEdge(to[i], from[i]);
+            }
         }
 
-        private void CompleteGraph()
+        private void AddEdge(int from, int to)
         {
-            var keys = _graph.Keys.ToArray();
-            foreach (var node in keys)
-            {
-                foreach (var dest in GetAdjacent(node))
-                {
-                    var adjacent = GetAdjacent(dest);
-                    adjacent.Add(node);
-                    if (adjacent.Count == 1)
-                    {
-                        _graph[dest] = adjacent;
-                    }
-                }
-            }
+            var adjacent = GetAdjacent(from);
+            if (adjacent.Count == 0) _graph[from] = adjacent;
+            adjacent.Add(to);
         }
 
         private HashSet<int> GetAdjacent(int node)
